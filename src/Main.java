@@ -4,7 +4,7 @@ public class Main {
         StdDraw.setCanvasSize(Map.COL * Map.CELL_SIZE, Map.ROW * Map.CELL_SIZE);
         StdDraw.setXscale(0, Map.COL * Map.CELL_SIZE);
         StdDraw.setYscale(0, Map.ROW * Map.CELL_SIZE);
-        Tile[][] grid = Graph.generateRandomGrid(false);
+        Tile[][] grid = Graph.generateRandomGrid(true, true);
         Map.drawMap();
         Tile.drawGrid(grid);
 

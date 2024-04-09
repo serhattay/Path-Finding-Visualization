@@ -1,4 +1,4 @@
-abstract class Map {
+public abstract class Map {
     protected final static int CELL_SIZE = 40; // tile pixel size
     protected final static int ROW = 15; // # of rows
     protected final static int COL = 20; // # of columns

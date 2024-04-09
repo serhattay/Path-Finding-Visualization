@@ -1,8 +1,12 @@
+import java.util.ArrayList;
+
 public class Tile {
     protected int row;
     protected int col;
     protected boolean isObstacle;
     protected boolean isSource;
+
+    protected ArrayList<Adjacent> adjacencies = new ArrayList<>();
 
     Tile(int row, int col, boolean isObstacle) {
         this(row, col, isObstacle, false);
@@ -27,5 +31,29 @@ public class Tile {
                 }
             }
         }
+    }
+
+    public void addToAdjacents(Adjacent adjacent) {
+        adjacencies.add(adjacent);
+    }
+
+    public ArrayList<Adjacent> getAdjacencies() {
+        return adjacencies;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getCol() {
+        return col;
+    }
+
+    public boolean isObstacle() {
+        return isObstacle;
+    }
+
+    public boolean isSource() {
+        return isSource;
     }
 }

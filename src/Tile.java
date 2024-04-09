@@ -4,13 +4,13 @@ public class Tile {
     protected boolean isObstacle;
     protected boolean isSource;
 
-    Tile(int col, int row, boolean isObstacle) {
-        this(col, row, isObstacle, false);
+    Tile(int row, int col, boolean isObstacle) {
+        this(row, col, isObstacle, false);
     }
 
-    Tile(int col, int row, boolean isObstacle, boolean isSource) {
-        this.col = col;
+    Tile(int row, int col, boolean isObstacle, boolean isSource) {
         this.row = row;
+        this.col = col;
         this.isObstacle = isObstacle;
         this.isSource = isSource;
     }

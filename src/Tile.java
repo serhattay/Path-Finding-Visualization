@@ -8,6 +8,7 @@ public class Tile {
     protected Tile previousTile = null;
     protected double costSoFar;
     protected int costOfTile;
+    protected boolean isVisited = false;
     protected ArrayList<Tile> adjacencies = new ArrayList<>();
 
     Tile(int row, int col, boolean isObstacle) {

@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Random;
@@ -13,6 +14,8 @@ public class Graph {
         Comparator<Tile> comparator = new TileComparator();
         PriorityQueue<Tile> frontier = new PriorityQueue<>(comparator);
 
+        destinationTile = grid[8][7];
+
         frontier.add(characterLocation);
 
         Tile current = null;
@@ -24,9 +27,28 @@ public class Graph {
             current = frontier.poll();
 
             if (current == Graph.destinationTile) {
+                Graph.destinationTile.previousTile = previousTile;
                 Graph.destinationTile.costSoFar = cost;
+                break;
+            }
+            for (Tile next: current.adjacencies) {
+                double newCost = current.costSoFar + current.costOfTile;
+                if (!next.isVisited || newCost < next.costSoFar) {
+                    next.costSoFar = newCost;
+                    frontier.add(next);
+                    next.isVisited = true;
+                    next.previousTile = current;
+                }
             }
         }
+    }
+
+    public static void drawAStar() {
+        StdDraw.setPenColor(Color.BLUE);
+        Tile backtrack = Graph.destinationTile;
+        do {
+            StdDraw.filledCircle(backtrack.col, backtrack.row, 0.05);
+        } while (backtrack.previousTile != null);
     }
 
     public static double heuristic(Tile currentTile, Tile destinationTile) {
@@ -110,8 +132,8 @@ class TileComparator implements Comparator<Tile> {
 
     @Override
     public int compare(Tile o1, Tile o2) {
-        double totalCostOfO1 = o1.costSoFar + Graph.heuristic(o1, Graph.destinationTile);
-        double totalCostOfO2 = o2.costSoFar + Graph.heuristic(o2, Graph.destinationTile);
+        double totalCostOfO1 = o1.costSoFar + o1.costOfTile + Graph.heuristic(o1, Graph.destinationTile);
+        double totalCostOfO2 = o2.costSoFar + o2.costOfTile + Graph.heuristic(o2, Graph.destinationTile);
         if (totalCostOfO1 < totalCostOfO2) {
             return 1;
         } else if (totalCostOfO1 == totalCostOfO2) {

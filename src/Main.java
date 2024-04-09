@@ -4,12 +4,16 @@ public class Main {
         StdDraw.setCanvasSize(Map.COL * Map.CELL_SIZE, Map.ROW * Map.CELL_SIZE);
         StdDraw.setXscale(0, Map.COL * Map.CELL_SIZE);
         StdDraw.setYscale(0, Map.ROW * Map.CELL_SIZE);
-        Tile[][] grid = Graph.generateRandomGrid(true);
+        Tile[][] grid = Graph.generateRandomGrid(false);
         Map.drawMap();
         Tile.drawGrid(grid);
 
         //Tested and approved
         Graph.setAdjacentTiles();
+
+        Graph.aStarAlgorithm();
+        Graph.drawAStar();
+
         StdDraw.show();
     }
 }

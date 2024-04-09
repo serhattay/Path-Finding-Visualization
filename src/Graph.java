@@ -8,6 +8,7 @@ public class Graph {
     protected static Tile destinationTile;
     protected static Random random = new Random();
 
+    /*
     public static void aStarAlgorithm() {
         Comparator<Tile> comparator = new TileComparator();
         PriorityQueue<Tile> frontier = new PriorityQueue<>(comparator);
@@ -27,7 +28,7 @@ public class Graph {
             }
         }
     }
-
+    */
     public static double heuristic(Tile currentTile, Tile destinationTile) {
         return Math.sqrt(Math.pow(currentTile.getCol() - destinationTile.getCol(), 2) +
                 Math.pow(currentTile.getRow() - destinationTile.getRow(), 2));

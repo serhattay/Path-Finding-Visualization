@@ -1,19 +1,29 @@
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
 public class Graph {
     protected static Tile[][] grid = new Tile[Map.ROW][Map.COL];
     protected static Tile characterLocation;
+    protected static Tile destinationTile;
 
-    public static Tile aStarAlgorithm(Tile destinationTile) {
+    public static void aStarAlgorithm() {
+        Comparator<Tile> comparator = new TileComparator();
+        PriorityQueue<Tile> frontier = new PriorityQueue<>(comparator);
 
-        Tile current = characterLocation;
+        frontier.add(characterLocation);
 
-        while (current != destinationTile) {
+        Tile current = null;
+        Tile previousTile;
+        double cost = 0.0;
 
-            for (Adjacent adjacent: characterLocation.getAdjacencies()) {
+        while (!frontier.isEmpty()) {
+            previousTile = current;
+            current = frontier.poll();
 
+            if (current == Graph.destinationTile) {
+                Graph.destinationTile.costSoFar = cost;
             }
-
         }
-        return null;
     }
 
     public static double heuristic(Tile currentTile, Tile destinationTile) {
@@ -26,10 +36,10 @@ public class Graph {
                 Tile currentTile = grid[i][j];
                 for (int direction: new int[]{-1, 1}) {
                     if (i + direction >= 0 && i + direction < Map.ROW && !grid[i + direction][j].isObstacle) {
-                        currentTile.addToAdjacents(new Adjacent(grid[i + direction][j], 1.0));
+                        currentTile.addToAdjacents(grid[i + direction][j]);
                     }
                     if (j + direction >= 0 && j + direction < Map.COL && !grid[i][j + direction].isObstacle) {
-                        currentTile.addToAdjacents(new Adjacent(grid[i][j + direction], 1.0));
+                        currentTile.addToAdjacents(grid[i][j + direction]);
                     }
                 }
             }
@@ -65,6 +75,22 @@ public class Graph {
 
     public static void setCharacterLocation(Tile characterLocation) {
         Graph.characterLocation = characterLocation;
+    }
+}
+
+class TileComparator implements Comparator<Tile> {
+
+    @Override
+    public int compare(Tile o1, Tile o2) {
+        double totalCostOfO1 = o1.costSoFar + Graph.heuristic(o1, Graph.destinationTile);
+        double totalCostOfO2 = o2.costSoFar + Graph.heuristic(o2, Graph.destinationTile);
+        if (totalCostOfO1 < totalCostOfO2) {
+            return 1;
+        } else if (totalCostOfO1 == totalCostOfO2) {
+            return 0;
+        } else {
+            return -1;
+        }
     }
 }
 

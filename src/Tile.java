@@ -6,7 +6,9 @@ public class Tile {
     protected boolean isObstacle;
     protected boolean isSource;
     protected Tile previousTile = null;
-    protected ArrayList<Adjacent> adjacencies = new ArrayList<>();
+    protected double costSoFar;
+
+    protected ArrayList<Tile> adjacencies = new ArrayList<>();
 
     Tile(int row, int col, boolean isObstacle) {
         this(row, col, isObstacle, false);
@@ -34,11 +36,11 @@ public class Tile {
         }
     }
 
-    public void addToAdjacents(Adjacent adjacent) {
+    public void addToAdjacents(Tile adjacent) {
         adjacencies.add(adjacent);
     }
 
-    public ArrayList<Adjacent> getAdjacencies() {
+    public ArrayList<Tile> getAdjacencies() {
         return adjacencies;
     }
 
@@ -68,10 +70,12 @@ public class Tile {
 
     public void resetPreviousTile() {
         this.previousTile = null;
+        this.costSoFar = Double.MAX_VALUE;
     }
 
     @Override
     public String toString() {
         return String.format("row: %d, col: %d", row, col);
     }
+
 }

@@ -25,10 +25,11 @@ public class Graph {
                 Tile currentTile = grid[i][j];
 
                 for (int direction: new int[]{-1, 1}) {
-                    if (i + direction >= 0 && i + direction < Map.ROW) {
+                    if (i + direction >= 0 && i + direction < Map.ROW && !grid[i + direction][j].isObstacle) {
                         currentTile.addToAdjacents(new Adjacent(grid[i + direction][j], 1.0));
+
                     }
-                    if (j + direction >= 0 && j + direction < Map.COL) {
+                    if (j + direction >= 0 && j + direction < Map.COL && !grid[i][j + direction].isObstacle) {
                         currentTile.addToAdjacents(new Adjacent(grid[i][j + direction], 1.0));
                     }
                 }

@@ -6,7 +6,6 @@ public class Tile {
     protected boolean isObstacle;
     protected boolean isSource;
     protected Tile previousTile = null;
-
     protected ArrayList<Adjacent> adjacencies = new ArrayList<>();
 
     Tile(int row, int col, boolean isObstacle) {

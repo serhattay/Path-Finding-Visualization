@@ -5,6 +5,7 @@ public class Tile {
     protected int col;
     protected boolean isObstacle;
     protected boolean isSource;
+    protected Tile previousTile = null;
 
     protected ArrayList<Adjacent> adjacencies = new ArrayList<>();
 
@@ -17,6 +18,7 @@ public class Tile {
         this.col = col;
         this.isObstacle = isObstacle;
         this.isSource = isSource;
+        Graph.setCharacterLocation(this);
     }
 
     protected static void drawGrid(Tile[][] grid) {
@@ -55,5 +57,17 @@ public class Tile {
 
     public boolean isSource() {
         return isSource;
+    }
+
+    public Tile getPreviousTile() {
+        return previousTile;
+    }
+
+    public void setPreviousTile(Tile previousTile) {
+        this.previousTile = previousTile;
+    }
+
+    public void resetPreviousTile() {
+        this.previousTile = null;
     }
 }

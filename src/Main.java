@@ -10,6 +10,7 @@ public class Main {
 
         //Tested and approved
         Graph.setAdjacentTiles();
+        System.out.println(grid[1][1].adjacencies);
         StdDraw.show();
     }
 }

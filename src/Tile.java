@@ -69,4 +69,9 @@ public class Tile {
     public void resetPreviousTile() {
         this.previousTile = null;
     }
+
+    @Override
+    public String toString() {
+        return String.format("row: %d, col: %d", row, col);
+    }
 }

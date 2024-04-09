@@ -1,20 +1,23 @@
 public class Adjacent {
-    protected Tile destinationTile;
+    protected Tile adjacent;
     protected double cost;
 
     Adjacent() {}
     Adjacent(Tile destinationTile, double cost) {
-        this.destinationTile = destinationTile;
+        this.adjacent = destinationTile;
         this.cost = cost;
     }
 
-    public Tile getDestinationTile() {
-        return destinationTile;
+    public Tile getAdjacent() {
+        return adjacent;
     }
 
     public double getCost() {
         return cost;
     }
 
-
+    @Override
+    public String toString() {
+        return String.format("adjacent: %s, cost: %f", adjacent, cost);
+    }
 }

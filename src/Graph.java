@@ -10,44 +10,9 @@ public class Graph {
     protected static Random random = new Random();
 
     public static void aStarAlgorithm() {
-        Comparator<Tile> comparator = new TileComparator();
-        PriorityQueue<Tile> frontier = new PriorityQueue<>(comparator);
-
-        destinationTile = grid[8][7];
-
-        frontier.add(characterLocation);
-
-        Tile current = null;
-        Tile previousTile;
-        double cost = 0.0;
-
-        while (!frontier.isEmpty()) {
-            previousTile = current;
-            current = frontier.poll();
-
-            if (current == Graph.destinationTile) {
-                Graph.destinationTile.previousTile = previousTile;
-                Graph.destinationTile.costSoFar = cost;
-                break;
-            }
-            for (Tile next: current.adjacencies) {
-                double newCost = current.costSoFar + current.costOfTile;
-                if (!next.isVisited || newCost < next.costSoFar) {
-                    next.costSoFar = newCost;
-                    frontier.add(next);
-                    next.isVisited = true;
-                    next.previousTile = current;
-                }
-            }
-        }
     }
 
     public static void drawAStar() {
-        StdDraw.setPenColor(Color.BLUE);
-        Tile backtrack = Graph.destinationTile;
-        do {
-            StdDraw.filledCircle(backtrack.col, backtrack.row, 0.05);
-        } while (backtrack.previousTile != null);
     }
 
     public static double heuristic(Tile currentTile, Tile destinationTile) {

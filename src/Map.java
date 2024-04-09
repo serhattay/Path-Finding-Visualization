@@ -14,6 +14,5 @@ abstract class Map {
         for (int i = 0; i <= COL; i++) {
             StdDraw.line(i * CELL_SIZE, 0, i * CELL_SIZE, ROW * CELL_SIZE);
         }
-        StdDraw.show();
     }
 }

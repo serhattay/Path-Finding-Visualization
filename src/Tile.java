@@ -7,7 +7,7 @@ public class Tile {
     protected boolean isSource;
     protected Tile previousTile = null;
     protected double costSoFar;
-
+    protected int costOfTile;
     protected ArrayList<Tile> adjacencies = new ArrayList<>();
 
     Tile(int row, int col, boolean isObstacle) {
@@ -19,6 +19,7 @@ public class Tile {
         this.col = col;
         this.isObstacle = isObstacle;
         this.isSource = isSource;
+        this.costOfTile = 1;
         Graph.setCharacterLocation(this);
     }
 
@@ -27,10 +28,12 @@ public class Tile {
             for (Tile tile : tiles) {
                 if (tile.isSource) {
                     StdDraw.setPenColor(StdDraw.RED);
-                    StdDraw.filledSquare((tile.col + 0.5) * Map.CELL_SIZE, (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE, Map.CELL_SIZE / 2.0);
+                    StdDraw.filledSquare((tile.col + 0.5) * Map.CELL_SIZE,
+                            (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE, Map.CELL_SIZE / 2.0);
                 } else if (tile.isObstacle) {
                     StdDraw.setPenColor(StdDraw.DARK_GRAY);
-                    StdDraw.filledSquare((tile.col + 0.5) * Map.CELL_SIZE, (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE, Map.CELL_SIZE / 2.0);
+                    StdDraw.filledSquare((tile.col + 0.5) * Map.CELL_SIZE,
+                            (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE, Map.CELL_SIZE / 2.0);
                 }
             }
         }

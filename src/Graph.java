@@ -6,7 +6,6 @@ public class Graph {
     protected static Tile[][] grid = new Tile[Map.ROW][Map.COL];
     protected static Tile characterLocation;
     protected static Tile destinationTile;
-
     protected static Random random = new Random();
 
     public static void aStarAlgorithm() {
@@ -52,7 +51,8 @@ public class Graph {
         for (int i = 0; i < Map.ROW; i++) {
             for (int j = 0; j < Map.COL; j++) {
                 if (i == 7 && j == 0) {
-                    grid[i][j] = new Tile(i, j, false, true);
+                    grid[i][j] = new Tile(i, j, false, true ,1);
+                    characterLocation = grid[i][j];
                     continue;
                 }
                 if (j == 12) {
@@ -68,24 +68,38 @@ public class Graph {
         }
         return grid;
     }
-    public static Tile[][] generateRandomGrid(boolean isSourceRandom) {
+    public static Tile[][] generateRandomGrid(boolean isSourceRandom, boolean isCostRandom) {
         // source is not random in this case
         if (!isSourceRandom) {
             gridHelper(7, 0);
-        } else {
+        } else { // source is random
             int sourceRow = random.nextInt(Map.ROW);
             int sourceCol = random.nextInt(Map.COL);
-            grid[sourceRow][sourceCol] = new Tile(sourceRow, sourceCol, false, true);
             gridHelper(sourceRow, sourceCol);
         }
+        if (isCostRandom) {
+            randomCost();
+        }
         return grid;
+    }
+    private static void randomCost() {
+        int numberCost = random.nextInt(10) + 3;
+        for (int i = 0; i < numberCost; i++) {
+            int row = random.nextInt(Map.ROW);
+            int col = random.nextInt(Map.COL);
+            Tile tile = grid[row][col];
+            if (!tile.isSource && !tile.isObstacle) {
+                tile.setCostOfTile(random.nextDouble(1,2));
+            }
+        }
     }
     private static void gridHelper(int sourceRow, int sourceCol) {
         for (int i = 0; i < Map.ROW; i++) {
             for (int j = 0; j < Map.COL; j++) {
                 int rand = random.nextInt(5);
                 if (i == sourceRow && j == sourceCol) {
-                    grid[i][j] = new Tile(i, j, false, true);
+                    grid[i][j] = new Tile(i, j, false, true,1);
+                    characterLocation = grid[i][j];
                     continue;
                 }
                 if (rand == 0) {

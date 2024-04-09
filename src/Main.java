@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
@@ -8,6 +9,9 @@ public class Main {
         Tile[][] grid = Graph.generateDefaultGrid();
         Map.drawMap();
         Tile.drawGrid(grid);
+
+        //Tested and approved
+        Graph.setAdjacentTiles();
         StdDraw.show();
     }
 }

@@ -26,7 +26,7 @@ public abstract class Map {
         String obstacle = "assets/python_logo.png";
         String sand = "assets/sand.png";
         String berkGokberk = "assets/berkgokberk.png";
-        String destinationLogo = "assets/java_logo.png";
+        String destinationLogo = "assets/computer.png";
 
         random.setSeed(4);
 
@@ -36,8 +36,6 @@ public abstract class Map {
                     drawTile(tile, sand);
                 } else if (tile.isObstacle) {
                     drawTile(tile, obstacleGround);
-                    drawBorder(tile, StdDraw.GREEN);
-                    drawTile(tile, obstacle);
                 } else {
                     drawTile(tile, grassList);
                 }

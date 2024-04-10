@@ -46,7 +46,7 @@ public class Graph {
         for (Tile nextTile: path) {
             nextTile.drawLine();
         }
-        String destinationLogo = "assets/java_logo.png";
+        String destinationLogo = "assets/computer.png";
         Map.drawTile(destinationTile, destinationLogo);
 
         String characterPicture = "assets/berkgokberk.png";

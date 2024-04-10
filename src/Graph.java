@@ -11,16 +11,13 @@ public class Graph {
 
     public static void aStarAlgorithm() {
         PriorityQueue<Tile> frontier = new PriorityQueue<>();
-
         frontier.add(characterLocation);
         characterLocation.isVisited = true;
-
         Tile current;
         double newCost;
 
         while (!frontier.isEmpty()) {
             current = frontier.poll();
-
             if (current == destinationTile) {
                 break;
             }
@@ -45,15 +42,15 @@ public class Graph {
         }
     }
 
-    public static void drawPathLine() {
+    public static void drawPathLine(boolean animation) {
         for (Tile nextTile: path) {
             nextTile.drawLine();
         }
 
-        characterLocation.drawCircle();
+        characterLocation.drawCircle(animation);
 
         for (Tile nextTile: path) {
-            nextTile.drawCircle();
+            nextTile.drawCircle(animation);
         }
 
 
@@ -119,7 +116,7 @@ public class Graph {
             int col = random.nextInt(Map.COL);
             Tile tile = grid[row][col];
             if (!tile.isSource && !tile.isObstacle) {
-                tile.setCostOfTile(random.nextDouble(1,2));
+                tile.setCostOfTile(random.nextDouble(2,3));
             }
         }
     }
@@ -152,7 +149,7 @@ public class Graph {
         }
         int row = (int)((Map.ROW * Map.CELL_SIZE - mouseY) / Map.CELL_SIZE);
         int col = (int)(mouseX / Map.CELL_SIZE);
-        grid[row][col].setDestination();
+        grid[row][col].setDestination(true);
         destinationTile = grid[row][col];
     }
     public static Tile getCharacterLocation() {

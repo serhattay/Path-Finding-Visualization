@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.util.*;
 
 public class Graph {
@@ -21,7 +20,7 @@ public class Graph {
             if (current == destinationTile) {
                 break;
             }
-            for (Tile next: current.adjacencies) {
+            for (Tile next: current.adjacency) {
                 newCost = current.costSoFar + current.costOfTile;
                 if (!next.isVisited || newCost < next.costSoFar) {
                     next.costSoFar = newCost;
@@ -46,6 +45,9 @@ public class Graph {
         for (Tile nextTile: path) {
             nextTile.drawLine();
         }
+        //String destinationLogo = "assets/java_logo.png";
+        String destinationLogo = "assets/computer.png";
+        Map.drawTile(destinationTile, destinationLogo);
 
         String characterPicture = "assets/berkgokberk.png";
         Map.drawTile(characterLocation, characterPicture);
@@ -60,16 +62,17 @@ public class Graph {
         return Math.abs(destinationTile.getCol() - currentTile.getCol()) +
                 Math.abs(destinationTile.getRow() - currentTile.getRow());
     }
+
     public static void setAdjacentTiles() {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length ; j++) {
                 Tile currentTile = grid[i][j];
                 for (int direction: new int[]{-1, 1}) {
                     if (i + direction >= 0 && i + direction < Map.ROW && !grid[i + direction][j].isObstacle) {
-                        currentTile.addToAdjacents(grid[i + direction][j]);
+                        currentTile.addToAdjacent(grid[i + direction][j]);
                     }
                     if (j + direction >= 0 && j + direction < Map.COL && !grid[i][j + direction].isObstacle) {
-                        currentTile.addToAdjacents(grid[i][j + direction]);
+                        currentTile.addToAdjacent(grid[i][j + direction]);
                     }
                 }
             }
@@ -152,13 +155,6 @@ public class Graph {
         int col = (int)(mouseX / Map.CELL_SIZE);
         grid[row][col].setDestination(true);
         destinationTile = grid[row][col];
-    }
-    public static Tile getCharacterLocation() {
-        return characterLocation;
-    }
-
-    public static void setCharacterLocation(Tile characterLocation) {
-        Graph.characterLocation = characterLocation;
     }
 }
 

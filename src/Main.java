@@ -1,4 +1,3 @@
-import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -6,13 +5,14 @@ public class Main {
         StdDraw.setCanvasSize(Map.COL * Map.CELL_SIZE, Map.ROW * Map.CELL_SIZE);
         StdDraw.setXscale(0, Map.COL * Map.CELL_SIZE);
         StdDraw.setYscale(0, Map.ROW * Map.CELL_SIZE);
+
         Tile[][] grid = Graph.generateRandomGrid(true, true);
         Graph.setAdjacentTiles();
 
-        Map.drawMap();
         Map.drawGrid(grid);
         Graph.inputDestinationTile();
         Map.drawGrid(grid);
+
         Graph.aStarAlgorithm();
         Graph.setPathAfterAStar();
         Graph.drawPathLine(true);
@@ -20,7 +20,7 @@ public class Main {
 
         while (true) {
             Graph.inputDestinationTile();
-            Map.drawMap();
+            Map.resetMap();
             Map.drawGrid(grid);
             StdDraw.show();
 

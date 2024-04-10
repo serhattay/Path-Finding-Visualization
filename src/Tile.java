@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Tile implements Comparable<Tile> {
     protected int row;
@@ -11,7 +12,6 @@ public class Tile implements Comparable<Tile> {
     protected double costSoFar = 0.0;
     protected double costOfTile;
     protected boolean isVisited = false;
-
     protected ArrayList<Tile> adjacencies = new ArrayList<>();
 
     Tile(int row, int col, boolean isObstacle) {
@@ -61,8 +61,9 @@ public class Tile implements Comparable<Tile> {
             StdDraw.pause(100);
             StdDraw.show();
         }
-    }
 
+
+    }
 
     public void addToAdjacents(Tile adjacent) {
         adjacencies.add(adjacent);

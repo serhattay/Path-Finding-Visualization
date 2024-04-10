@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public abstract class Map {
     protected final static int CELL_SIZE = 60; // tile pixel size
     protected final static int ROW = 15; // # of rows
@@ -18,6 +20,12 @@ public abstract class Map {
     }
 
     protected static void drawGrid(Tile[][] grid) {
+        Random random = new Random();
+        String[] grassList = new String[]{"assets/grass0.jpeg", "assets/grass1.jpeg", "assets/grass3.jpeg"};
+        String treeGround = "assets/tree_ground.jpeg";
+        String[] treeList = new String[]{"assets/green_tree.png", "assets/pink_tree.png"};
+        String sand = "assets/sand.png";
+
         for (Tile[] tiles : grid) {
             for (Tile tile : tiles) {
                 if (tile.isSource) {
@@ -25,17 +33,18 @@ public abstract class Map {
                     StdDraw.filledSquare((tile.col + 0.5) * Map.CELL_SIZE,
                             (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE, Map.CELL_SIZE / 2.0);
                 } else if (tile.isObstacle) {
-                    StdDraw.setPenColor(StdDraw.DARK_GRAY);
-                    StdDraw.filledSquare((tile.col + 0.5) * Map.CELL_SIZE,
-                            (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE, Map.CELL_SIZE / 2.0);
+                    StdDraw.picture((tile.col + 0.5) * Map.CELL_SIZE, (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE,
+                            treeGround, Map.CELL_SIZE, Map.CELL_SIZE);
                 } else if (tile.costOfTile > 1) {
-                    StdDraw.setPenColor(StdDraw.PRINCETON_ORANGE);
-                    StdDraw.filledSquare((tile.col + 0.5) * Map.CELL_SIZE,
-                            (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE, Map.CELL_SIZE / 2.0);
+                    StdDraw.picture((tile.col + 0.5) * Map.CELL_SIZE, (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE,
+                            sand, Map.CELL_SIZE, Map.CELL_SIZE);
                 } else if (tile.isDestination) {
                     StdDraw.setPenColor(StdDraw.GREEN);
                     StdDraw.filledSquare((tile.col + 0.5) * Map.CELL_SIZE,
                             (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE, Map.CELL_SIZE / 2.0);
+                } else {
+                    StdDraw.picture((tile.col + 0.5) * Map.CELL_SIZE, (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE,
+                            grassList[random.nextInt(grassList.length)], Map.CELL_SIZE, Map.CELL_SIZE);
                 }
             }
         }

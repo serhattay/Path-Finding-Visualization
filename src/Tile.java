@@ -5,6 +5,7 @@ public class Tile {
     protected int col;
     protected boolean isObstacle;
     protected boolean isSource;
+    protected boolean isDestination = false;
     protected Tile previousTile = null;
     protected double costSoFar;
     protected double costOfTile;
@@ -39,6 +40,10 @@ public class Tile {
                             (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE, Map.CELL_SIZE / 2.0);
                 } else if (tile.costOfTile > 1) {
                     StdDraw.setPenColor(StdDraw.PRINCETON_ORANGE);
+                    StdDraw.filledSquare((tile.col + 0.5) * Map.CELL_SIZE,
+                            (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE, Map.CELL_SIZE / 2.0);
+                } else if (tile.isDestination) {
+                    StdDraw.setPenColor(StdDraw.GREEN);
                     StdDraw.filledSquare((tile.col + 0.5) * Map.CELL_SIZE,
                             (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE, Map.CELL_SIZE / 2.0);
                 }
@@ -80,6 +85,10 @@ public class Tile {
 
     public void setCostOfTile(double newCost) {
         costOfTile = newCost;
+    }
+
+    public void setDestination() {
+        isDestination = true;
     }
 
     public void resetPreviousTile() {

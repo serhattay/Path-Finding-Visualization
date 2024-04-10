@@ -7,13 +7,14 @@ public class Main {
         Tile[][] grid = Graph.generateRandomGrid(true, true);
         Map.drawMap();
         Tile.drawGrid(grid);
-
-        //Tested and approved
         Graph.setAdjacentTiles();
-
+        /*
         Graph.aStarAlgorithm();
         Graph.drawAStar();
-
+        */
+        StdDraw.show();
+        Graph.inputDestinationTile();
+        Tile.drawGrid(grid);
         StdDraw.show();
     }
 }

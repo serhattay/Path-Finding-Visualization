@@ -9,12 +9,13 @@ public class Graph {
     protected static Tile destinationTile;
     protected static Random random = new Random();
 
+    /*
     public static void aStarAlgorithm() {
     }
 
     public static void drawAStar() {
     }
-
+    */
     public static double heuristic(Tile currentTile, Tile destinationTile) {
         return Math.sqrt(Math.pow(currentTile.getCol() - destinationTile.getCol(), 2) +
                 Math.pow(currentTile.getRow() - destinationTile.getRow(), 2));
@@ -97,7 +98,21 @@ public class Graph {
             }
         }
     }
-
+    public static void inputDestinationTile() {
+        double mouseX;
+        double mouseY;
+        while (true) {
+            if (StdDraw.isMousePressed()) {
+                mouseX = StdDraw.mouseX();
+                mouseY = StdDraw.mouseY();
+                break;
+            }
+        }
+        int row = (int)((Map.ROW * Map.CELL_SIZE - mouseY) / Map.CELL_SIZE);
+        int col = (int)(mouseX / Map.CELL_SIZE);
+        grid[row][col].setDestination();
+        destinationTile = grid[row][col];
+    }
     public static Tile getCharacterLocation() {
         return characterLocation;
     }

@@ -1,12 +1,11 @@
 import java.awt.*;
-import java.util.Comparator;
-import java.util.PriorityQueue;
-import java.util.Random;
+import java.util.*;
 
 public class Graph {
     protected static Tile[][] grid = new Tile[Map.ROW][Map.COL];
     protected static Tile characterLocation;
     protected static Tile destinationTile;
+    protected static LinkedList<Tile> path;
     protected static Random random = new Random();
 
 
@@ -36,17 +35,16 @@ public class Graph {
         }
     }
 
-    public static void drawAStar() {
+    // returns path destination point inclusive but not starting point
+    public static void setPathAfterAStar() {
         Tile lastTile = destinationTile;
-        StdDraw.setPenColor(Color.BLUE);
-        do {
-            StdDraw.filledSquare((lastTile.col + 0.5) * Map.CELL_SIZE,
-                    (Map.ROW - lastTile.row - 0.5) * Map.CELL_SIZE, Map.CELL_SIZE / 2.0);
+
+        while (lastTile.previousTile != null) {
+            path.addFirst(lastTile);
             lastTile = lastTile.previousTile;
-            StdDraw.pause(50);
-            StdDraw.show();
-        } while(lastTile.previousTile != null);
+        }
     }
+
     public static double heuristic(Tile currentTile, Tile destinationTile) {
         return Math.abs(destinationTile.getCol() - currentTile.getCol()) +
                 Math.abs(destinationTile.getRow() - currentTile.getRow());

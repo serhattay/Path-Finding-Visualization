@@ -48,32 +48,16 @@ public class Graph {
     }
 
     public static void drawPathLine() {
-        System.out.println(path);
         for (Tile nextTile: path) {
-            double lineRadius = 0.01 * Map.CELL_SIZE / 40.0;
-            double circleOuterLineRadius = 0.001 * Map.CELL_SIZE / 8.0;
-            double circleRadius = Map.CELL_SIZE / 4.0;
-
-            double previousTileX = (nextTile.previousTile.col + 0.5) * Map.CELL_SIZE;
-            double previousTileY = (Map.ROW - nextTile.previousTile.row - 0.5) * Map.CELL_SIZE;
-            double nextTileX =  (nextTile.col + 0.5) * Map.CELL_SIZE;
-            double nextTileY =  (Map.ROW - nextTile.row - 0.5)  * Map.CELL_SIZE;
-
-            StdDraw.setPenColor(255, 215, 0);
-            StdDraw.setPenRadius(lineRadius);
-            StdDraw.line(previousTileX, previousTileY, nextTileX, nextTileY);
-
-            StdDraw.filledCircle(previousTileX, previousTileY, circleRadius);
-            StdDraw.setPenColor(Color.WHITE);
-
-            StdDraw.setPenRadius(circleOuterLineRadius);
-            StdDraw.circle(previousTileX, previousTileY, circleRadius);
-            Font font = new Font("Arial", Font.BOLD, Map.CELL_SIZE / 3);
-            StdDraw.setFont(font);
-            StdDraw.text(previousTileX, previousTileY, String.valueOf((int) nextTile.costSoFar - 1));
-            StdDraw.pause(50);
-            StdDraw.show();
+            nextTile.drawLine();
         }
+
+        characterLocation.drawCircle();
+
+        for (Tile nextTile: path) {
+            nextTile.drawCircle();
+        }
+
 
     }
     public static double heuristic(Tile currentTile, Tile destinationTile) {

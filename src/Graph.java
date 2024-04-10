@@ -40,7 +40,6 @@ public class Graph {
     public static void setPathAfterAStar() {
         Tile lastTile = destinationTile;
 
-        System.out.println(characterLocation.previousTile);
         while (lastTile.previousTile != null) {
             path.addFirst(lastTile);
             lastTile = lastTile.previousTile;

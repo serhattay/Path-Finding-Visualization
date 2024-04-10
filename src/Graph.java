@@ -5,13 +5,14 @@ public class Graph {
     protected static Tile[][] grid = new Tile[Map.ROW][Map.COL];
     protected static Tile characterLocation;
     protected static Tile destinationTile;
-    protected static LinkedList<Tile> path;
+    protected static LinkedList<Tile> path = new LinkedList<>();
     protected static Random random = new Random();
 
 
     public static void aStarAlgorithm() {
         PriorityQueue<Tile> frontier = new PriorityQueue<>();
         frontier.add(characterLocation);
+        characterLocation.isVisited = true;
         Tile current;
         double newCost;
 
@@ -36,12 +37,42 @@ public class Graph {
     public static void setPathAfterAStar() {
         Tile lastTile = destinationTile;
 
+        System.out.println(characterLocation.previousTile);
         while (lastTile.previousTile != null) {
             path.addFirst(lastTile);
             lastTile = lastTile.previousTile;
         }
     }
 
+    public static void drawPathLine() {
+        System.out.println(path);
+        for (Tile nextTile: path) {
+            double lineRadius = 0.01 * Map.CELL_SIZE / 40.0;
+            double circleOuterLineRadius = 0.001 * Map.CELL_SIZE / 8.0;
+            double circleRadius = Map.CELL_SIZE / 4.0;
+
+            double previousTileX = (nextTile.previousTile.col + 0.5) * Map.CELL_SIZE;
+            double previousTileY = (Map.ROW - nextTile.previousTile.row - 0.5) * Map.CELL_SIZE;
+            double nextTileX =  (nextTile.col + 0.5) * Map.CELL_SIZE;
+            double nextTileY =  (Map.ROW - nextTile.row - 0.5)  * Map.CELL_SIZE;
+
+            StdDraw.setPenColor(255, 215, 0);
+            StdDraw.setPenRadius(lineRadius);
+            StdDraw.line(previousTileX, previousTileY, nextTileX, nextTileY);
+
+            StdDraw.filledCircle(previousTileX, previousTileY, circleRadius);
+            StdDraw.setPenColor(Color.WHITE);
+
+            StdDraw.setPenRadius(circleOuterLineRadius);
+            StdDraw.circle(previousTileX, previousTileY, circleRadius);
+            Font font = new Font("Arial", Font.BOLD, Map.CELL_SIZE / 3);
+            StdDraw.setFont(font);
+            StdDraw.text(previousTileX, previousTileY, String.valueOf((int) nextTile.costSoFar - 1));
+            StdDraw.pause(50);
+            StdDraw.show();
+        }
+
+    }
     public static double heuristic(Tile currentTile, Tile destinationTile) {
         return Math.abs(destinationTile.getCol() - currentTile.getCol()) +
                 Math.abs(destinationTile.getRow() - currentTile.getRow());

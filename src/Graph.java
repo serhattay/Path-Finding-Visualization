@@ -15,9 +15,8 @@ public class Graph {
 
         frontier.add(characterLocation);
 
-        Tile current = null;
-        Tile previousTile;
-        double newCost = 0.0;
+        Tile current;
+        double newCost;
 
         while (!frontier.isEmpty()) {
             current = frontier.poll();
@@ -44,6 +43,7 @@ public class Graph {
             StdDraw.filledSquare((lastTile.col + 0.5) * Map.CELL_SIZE,
                     (Map.ROW - lastTile.row - 0.5) * Map.CELL_SIZE, Map.CELL_SIZE / 2.0);
             lastTile = lastTile.previousTile;
+            StdDraw.pause(50);
             StdDraw.show();
         } while(lastTile.previousTile != null);
     }

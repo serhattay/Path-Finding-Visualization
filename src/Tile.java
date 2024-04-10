@@ -7,7 +7,7 @@ public class Tile implements Comparable<Tile> {
     protected boolean isSource;
     protected boolean isDestination = false;
     protected Tile previousTile = null;
-    protected double costSoFar;
+    protected double costSoFar = 0.0;
     protected double costOfTile;
     protected boolean isVisited = false;
 

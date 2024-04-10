@@ -9,7 +9,6 @@ public class Main {
         Tile[][] grid = Graph.generateRandomGrid(true, true);
         Graph.setAdjacentTiles();
 
-        Map.drawMap();
         Map.drawGrid(grid);
         Graph.inputDestinationTile();
         Map.drawGrid(grid);

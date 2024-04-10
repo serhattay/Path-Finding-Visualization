@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Tile implements Comparable<Tile> {
@@ -27,6 +28,37 @@ public class Tile implements Comparable<Tile> {
         this.costOfTile = costOfTile;
     }
 
+    protected void drawLine() {
+        double lineRadius = 0.01 * Map.CELL_SIZE / 40.0;
+
+        double previousTileX = (previousTile.col + 0.5) * Map.CELL_SIZE;
+        double previousTileY = (Map.ROW - previousTile.row - 0.5) * Map.CELL_SIZE;
+        double nextTileX =  (col + 0.5) * Map.CELL_SIZE;
+        double nextTileY =  (Map.ROW - row - 0.5)  * Map.CELL_SIZE;
+
+        StdDraw.setPenRadius(lineRadius);
+        StdDraw.setPenColor(255, 215, 0);
+        StdDraw.line(previousTileX, previousTileY, nextTileX, nextTileY);
+    }
+    protected void drawCircle() {
+        double tileX =  (col + 0.5) * Map.CELL_SIZE;
+        double tileY =  (Map.ROW - row - 0.5)  * Map.CELL_SIZE;
+
+        double circleOuterLineRadius = 0.001 * Map.CELL_SIZE / 8.0;
+        double circleRadius = Map.CELL_SIZE / 4.0;
+
+        StdDraw.setPenColor(255, 215, 0);
+        StdDraw.filledCircle(tileX, tileY, circleRadius);
+        StdDraw.setPenColor(Color.WHITE);
+
+        StdDraw.setPenRadius(circleOuterLineRadius);
+        StdDraw.circle(tileX, tileY, circleRadius);
+        Font font = new Font("Arial", Font.BOLD, Map.CELL_SIZE / 3);
+        StdDraw.setFont(font);
+        StdDraw.text(tileX, tileY, String.valueOf((int) costSoFar));
+        StdDraw.pause(50);
+        StdDraw.show();
+    }
     protected static void drawGrid(Tile[][] grid) {
         for (Tile[] tiles : grid) {
             for (Tile tile : tiles) {
@@ -110,7 +142,7 @@ public class Tile implements Comparable<Tile> {
         } else if (totalCostOfO1 == totalCostOfO2) {
             return 0;
         } else {
-            return 11;
+            return 1;
         }
     }
 }

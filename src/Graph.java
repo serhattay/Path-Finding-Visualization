@@ -10,14 +10,46 @@ public class Graph {
     protected static Random random = new Random();
 
     public static void aStarAlgorithm() {
+        Comparator<Tile> comparator = new TileComparator();
+        PriorityQueue<Tile> frontier = new PriorityQueue<>(comparator);
+
+        destinationTile = grid[8][7];
+
+        frontier.add(characterLocation);
+
+        Tile current = null;
+        Tile previousTile;
+        double newCost = 0.0;
+
+        while (!frontier.isEmpty()) {
+            previousTile = current;
+            current = frontier.poll();
+
+            if (current == Graph.destinationTile) {
+                Graph.destinationTile.previousTile = previousTile;
+                Graph.destinationTile.costSoFar = newCost;
+                StdDraw.filledCircle(current.col * 40 - 20, current.row * 40 - 20, 15);
+                break;
+            }
+            for (Tile next: current.adjacencies) {
+                newCost = current.costSoFar + current.costOfTile;
+                if (!next.isVisited || newCost < next.costSoFar) {
+                    next.costSoFar = newCost;
+                    frontier.add(next);
+                    next.isVisited = true;
+                    next.previousTile = current;
+                    StdDraw.filledCircle(next.col * 40 - 20, next.row * 40 - 20, 5);
+                    StdDraw.pause(100);
+                    StdDraw.show();
+                }
+            }
+        }
     }
 
-    public static void drawAStar() {
-    }
 
     public static double heuristic(Tile currentTile, Tile destinationTile) {
-        return Math.sqrt(Math.pow(currentTile.getCol() - destinationTile.getCol(), 2) +
-                Math.pow(currentTile.getRow() - destinationTile.getRow(), 2));
+        return Math.abs(destinationTile.getCol() - currentTile.getCol()) +
+                Math.abs(destinationTile.getRow() - currentTile.getRow());
     }
     public static void setAdjacentTiles() {
         for (int i = 0; i < grid.length; i++) {

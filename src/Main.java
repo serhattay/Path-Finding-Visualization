@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Main {
     public static void main(String[] args) {
         StdDraw.enableDoubleBuffering();
@@ -12,7 +14,6 @@ public class Main {
         Graph.setAdjacentTiles();
 
         Graph.aStarAlgorithm();
-        Graph.drawAStar();
 
         StdDraw.show();
     }

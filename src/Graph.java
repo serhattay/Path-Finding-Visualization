@@ -111,7 +111,21 @@ public class Graph {
             }
         }
     }
-
+    public static void inputDestinationTile() {
+        double mouseX;
+        double mouseY;
+        while (true) {
+            if (StdDraw.isMousePressed()) {
+                mouseX = StdDraw.mouseX();
+                mouseY = StdDraw.mouseY();
+                break;
+            }
+        }
+        int row = (int)((Map.ROW * Map.CELL_SIZE - mouseY) / Map.CELL_SIZE);
+        int col = (int)(mouseX / Map.CELL_SIZE);
+        grid[row][col].setDestination();
+        destinationTile = grid[row][col];
+    }
     public static Tile getCharacterLocation() {
         return characterLocation;
     }

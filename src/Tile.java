@@ -58,7 +58,7 @@ public class Tile implements Comparable<Tile> {
         StdDraw.setFont(font);
         StdDraw.text(tileX, tileY, String.valueOf((int) costSoFar));
         if (animation) {
-            StdDraw.pause(100);
+            StdDraw.pause(50);
             StdDraw.show();
         }
 

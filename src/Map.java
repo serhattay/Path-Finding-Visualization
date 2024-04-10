@@ -1,12 +1,13 @@
+import java.awt.*;
 import java.util.Random;
 
 public abstract class Map {
     protected final static int CELL_SIZE = 60; // tile pixel size
     protected final static int ROW = 15; // # of rows
     protected final static int COL = 20; // # of columns
+    protected static Random random = new Random();
 
     protected static void drawMap() {
-        StdDraw.clear(StdDraw.LIGHT_GRAY); // set the background color
         StdDraw.setPenColor(StdDraw.WHITE); // set the line color
         StdDraw.setPenRadius();
         // draw the horizontal lines
@@ -20,33 +21,39 @@ public abstract class Map {
     }
 
     protected static void drawGrid(Tile[][] grid) {
-        Random random = new Random();
         String[] grassList = new String[]{"assets/grass0.jpeg", "assets/grass1.jpeg", "assets/grass3.jpeg"};
-        String treeGround = "assets/tree_ground.jpeg";
-        String[] treeList = new String[]{"assets/green_tree.png", "assets/pink_tree.png"};
+        String obstacleGround = "assets/tree_ground.jpeg";
+        String obstacle = "assets/python_logo.png";
         String sand = "assets/sand.png";
         String berkGokberk = "assets/berkgokberk.png";
-        String computer = "assets/computer.png";
+        String destinationLogo = "assets/java_logo.png";
+
+        random.setSeed(4);
 
         for (Tile[] tiles : grid) {
             for (Tile tile : tiles) {
-                if (tile.isSource) {
-                    drawTile(tile, grassList);
-                    drawTile(tile, berkGokberk);
-                } else if (tile.isObstacle) {
-                    drawTile(tile, treeGround);
-                } else if (tile.costOfTile > 1) {
+                if (tile.costOfTile > 1) {
                     drawTile(tile, sand);
-                } else if (tile.isDestination) {
-                    drawTile(tile, grassList);
-                    drawTile(tile, computer);
+                } else if (tile.isObstacle) {
+                    drawTile(tile, obstacleGround);
+                    drawBorder(tile, StdDraw.GREEN);
+                    drawTile(tile, obstacle);
                 } else {
                     drawTile(tile, grassList);
                 }
+
+                if (tile.isSource) {
+                    drawTile(tile, berkGokberk);
+                } else if (tile.isDestination) {
+                    drawTile(tile, destinationLogo);
+                }
+
             }
         }
         StdDraw.show();
     }
+
+
 
     protected static void animation(Tile[][] grid) {
         while (!Graph.path.isEmpty()) {
@@ -65,13 +72,18 @@ public abstract class Map {
         Tile.setDefault(grid);
     }
 
+    private static void drawBorder(Tile tile, Color color) {
+        StdDraw.setPenColor(color);
+        StdDraw.setPenRadius(0.005);
+        StdDraw.rectangle((tile.col + 0.5) * Map.CELL_SIZE, (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE,
+                Map.CELL_SIZE / 2.0, Map.CELL_SIZE / 2.0);
+    }
     public static void drawTile(Tile characterTile, String picture) {
         StdDraw.picture((characterTile.col + 0.5) * Map.CELL_SIZE, (Map.ROW - characterTile.row - 0.5) * Map.CELL_SIZE,
                 picture, Map.CELL_SIZE, Map.CELL_SIZE);
     }
 
     public static void drawTile(Tile characterTile, String[] pictureList) {
-        Random random = new Random();
         StdDraw.picture((characterTile.col + 0.5) * Map.CELL_SIZE, (Map.ROW - characterTile.row - 0.5) * Map.CELL_SIZE,
                 pictureList[random.nextInt(pictureList.length)], Map.CELL_SIZE, Map.CELL_SIZE);
     }

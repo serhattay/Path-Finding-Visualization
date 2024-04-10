@@ -9,11 +9,9 @@ public class Graph {
     protected static Tile destinationTile;
     protected static Random random = new Random();
 
-    public static void aStarAlgorithm() {
-        Comparator<Tile> comparator = new TileComparator();
-        PriorityQueue<Tile> frontier = new PriorityQueue<>(comparator);
 
-        destinationTile = grid[8][7];
+    public static void aStarAlgorithm() {
+        PriorityQueue<Tile> frontier = new PriorityQueue<>();
 
         frontier.add(characterLocation);
 
@@ -22,13 +20,9 @@ public class Graph {
         double newCost = 0.0;
 
         while (!frontier.isEmpty()) {
-            previousTile = current;
             current = frontier.poll();
 
-            if (current == Graph.destinationTile) {
-                Graph.destinationTile.previousTile = previousTile;
-                Graph.destinationTile.costSoFar = newCost;
-                StdDraw.filledCircle(current.col * 40 - 20, current.row * 40 - 20, 15);
+            if (current == destinationTile) {
                 break;
             }
             for (Tile next: current.adjacencies) {
@@ -38,15 +32,21 @@ public class Graph {
                     frontier.add(next);
                     next.isVisited = true;
                     next.previousTile = current;
-                    StdDraw.filledCircle(next.col * 40 - 20, next.row * 40 - 20, 5);
-                    StdDraw.pause(100);
-                    StdDraw.show();
                 }
             }
         }
     }
 
-
+    public static void drawAStar() {
+        Tile lastTile = destinationTile;
+        StdDraw.setPenColor(Color.BLUE);
+        do {
+            StdDraw.filledSquare((lastTile.col + 0.5) * Map.CELL_SIZE,
+                    (Map.ROW - lastTile.row - 0.5) * Map.CELL_SIZE, Map.CELL_SIZE / 2.0);
+            lastTile = lastTile.previousTile;
+            StdDraw.show();
+        } while(lastTile.previousTile != null);
+    }
     public static double heuristic(Tile currentTile, Tile destinationTile) {
         return Math.abs(destinationTile.getCol() - currentTile.getCol()) +
                 Math.abs(destinationTile.getRow() - currentTile.getRow());
@@ -129,7 +129,21 @@ public class Graph {
             }
         }
     }
-
+    public static void inputDestinationTile() {
+        double mouseX;
+        double mouseY;
+        while (true) {
+            if (StdDraw.isMousePressed()) {
+                mouseX = StdDraw.mouseX();
+                mouseY = StdDraw.mouseY();
+                break;
+            }
+        }
+        int row = (int)((Map.ROW * Map.CELL_SIZE - mouseY) / Map.CELL_SIZE);
+        int col = (int)(mouseX / Map.CELL_SIZE);
+        grid[row][col].setDestination();
+        destinationTile = grid[row][col];
+    }
     public static Tile getCharacterLocation() {
         return characterLocation;
     }
@@ -139,20 +153,5 @@ public class Graph {
     }
 }
 
-class TileComparator implements Comparator<Tile> {
-
-    @Override
-    public int compare(Tile o1, Tile o2) {
-        double totalCostOfO1 = o1.costSoFar + o1.costOfTile + Graph.heuristic(o1, Graph.destinationTile);
-        double totalCostOfO2 = o2.costSoFar + o2.costOfTile + Graph.heuristic(o2, Graph.destinationTile);
-        if (totalCostOfO1 < totalCostOfO2) {
-            return 1;
-        } else if (totalCostOfO1 == totalCostOfO2) {
-            return 0;
-        } else {
-            return -1;
-        }
-    }
-}
 
 

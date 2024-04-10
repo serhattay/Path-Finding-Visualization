@@ -6,15 +6,19 @@ public class Main {
         StdDraw.setCanvasSize(Map.COL * Map.CELL_SIZE, Map.ROW * Map.CELL_SIZE);
         StdDraw.setXscale(0, Map.COL * Map.CELL_SIZE);
         StdDraw.setYscale(0, Map.ROW * Map.CELL_SIZE);
-        Tile[][] grid = Graph.generateRandomGrid(true, true);
+        Tile[][] grid = Graph.generateRandomGrid(false, false);
         Map.drawMap();
         Tile.drawGrid(grid);
+        StdDraw.show();
 
-        //Tested and approved
         Graph.setAdjacentTiles();
 
-        Graph.aStarAlgorithm();
+        Graph.inputDestinationTile();
+        Tile.drawGrid(grid);
+        StdDraw.show();
 
+        Graph.aStarAlgorithm();
+        Graph.drawAStar();
         StdDraw.show();
     }
 }

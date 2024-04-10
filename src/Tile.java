@@ -1,10 +1,11 @@
 import java.util.ArrayList;
 
-public class Tile {
+public class Tile implements Comparable<Tile> {
     protected int row;
     protected int col;
     protected boolean isObstacle;
     protected boolean isSource;
+    protected boolean isDestination = false;
     protected Tile previousTile = null;
     protected double costSoFar;
     protected double costOfTile;
@@ -39,6 +40,10 @@ public class Tile {
                             (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE, Map.CELL_SIZE / 2.0);
                 } else if (tile.costOfTile > 1) {
                     StdDraw.setPenColor(StdDraw.PRINCETON_ORANGE);
+                    StdDraw.filledSquare((tile.col + 0.5) * Map.CELL_SIZE,
+                            (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE, Map.CELL_SIZE / 2.0);
+                } else if (tile.isDestination) {
+                    StdDraw.setPenColor(StdDraw.GREEN);
                     StdDraw.filledSquare((tile.col + 0.5) * Map.CELL_SIZE,
                             (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE, Map.CELL_SIZE / 2.0);
                 }
@@ -82,6 +87,10 @@ public class Tile {
         costOfTile = newCost;
     }
 
+    public void setDestination() {
+        isDestination = true;
+    }
+
     public void resetPreviousTile() {
         this.previousTile = null;
         this.costSoFar = Double.MAX_VALUE;
@@ -92,4 +101,16 @@ public class Tile {
         return String.format("row: %d, col: %d", row, col);
     }
 
+    @Override
+    public int compareTo(Tile o2) {
+        double totalCostOfO1 = costSoFar + costOfTile + Graph.heuristic(this, Graph.destinationTile);
+        double totalCostOfO2 = o2.costSoFar + o2.costOfTile + Graph.heuristic(o2, Graph.destinationTile);
+        if (totalCostOfO1 < totalCostOfO2) {
+            return -1;
+        } else if (totalCostOfO1 == totalCostOfO2) {
+            return 0;
+        } else {
+            return 11;
+        }
+    }
 }

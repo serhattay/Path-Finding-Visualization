@@ -37,22 +37,21 @@ public class Graph {
     public static void setPathAfterAStar() {
         Tile lastTile = destinationTile;
 
-        System.out.println(characterLocation.previousTile);
         while (lastTile.previousTile != null) {
             path.addFirst(lastTile);
             lastTile = lastTile.previousTile;
         }
     }
 
-    public static void drawPathLine() {
+    public static void drawPathLine(boolean animation) {
         for (Tile nextTile: path) {
             nextTile.drawLine();
         }
 
-        characterLocation.drawCircle();
+        characterLocation.drawCircle(animation);
 
         for (Tile nextTile: path) {
-            nextTile.drawCircle();
+            nextTile.drawCircle(animation);
         }
 
 
@@ -151,7 +150,7 @@ public class Graph {
         }
         int row = (int)((Map.ROW * Map.CELL_SIZE - mouseY) / Map.CELL_SIZE);
         int col = (int)(mouseX / Map.CELL_SIZE);
-        grid[row][col].setDestination();
+        grid[row][col].setDestination(true);
         destinationTile = grid[row][col];
     }
     public static Tile getCharacterLocation() {

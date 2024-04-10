@@ -40,7 +40,8 @@ public class Tile implements Comparable<Tile> {
         StdDraw.setPenColor(255, 215, 0);
         StdDraw.line(previousTileX, previousTileY, nextTileX, nextTileY);
     }
-    protected void drawCircle() {
+
+    protected void drawCircle(boolean animation) {
         double tileX =  (col + 0.5) * Map.CELL_SIZE;
         double tileY =  (Map.ROW - row - 0.5)  * Map.CELL_SIZE;
 
@@ -56,39 +57,15 @@ public class Tile implements Comparable<Tile> {
         Font font = new Font("Arial", Font.BOLD, Map.CELL_SIZE / 3);
         StdDraw.setFont(font);
         StdDraw.text(tileX, tileY, String.valueOf((int) costSoFar));
-        StdDraw.pause(50);
-        StdDraw.show();
-    }
-    protected static void drawGrid(Tile[][] grid) {
-        for (Tile[] tiles : grid) {
-            for (Tile tile : tiles) {
-                if (tile.isSource) {
-                    StdDraw.setPenColor(StdDraw.RED);
-                    StdDraw.filledSquare((tile.col + 0.5) * Map.CELL_SIZE,
-                            (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE, Map.CELL_SIZE / 2.0);
-                } else if (tile.isObstacle) {
-                    StdDraw.setPenColor(StdDraw.DARK_GRAY);
-                    StdDraw.filledSquare((tile.col + 0.5) * Map.CELL_SIZE,
-                            (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE, Map.CELL_SIZE / 2.0);
-                } else if (tile.costOfTile > 1) {
-                    StdDraw.setPenColor(StdDraw.PRINCETON_ORANGE);
-                    StdDraw.filledSquare((tile.col + 0.5) * Map.CELL_SIZE,
-                            (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE, Map.CELL_SIZE / 2.0);
-                } else if (tile.isDestination) {
-                    StdDraw.setPenColor(StdDraw.GREEN);
-                    StdDraw.filledSquare((tile.col + 0.5) * Map.CELL_SIZE,
-                            (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE, Map.CELL_SIZE / 2.0);
-                }
-            }
+        if (animation) {
+            StdDraw.pause(100);
+            StdDraw.show();
         }
     }
 
+
     public void addToAdjacents(Tile adjacent) {
         adjacencies.add(adjacent);
-    }
-
-    public ArrayList<Tile> getAdjacencies() {
-        return adjacencies;
     }
 
     public int getRow() {
@@ -99,39 +76,32 @@ public class Tile implements Comparable<Tile> {
         return col;
     }
 
-    public boolean isObstacle() {
-        return isObstacle;
-    }
-
-    public boolean isSource() {
-        return isSource;
-    }
-
-    public Tile getPreviousTile() {
-        return previousTile;
-    }
-
-    public void setPreviousTile(Tile previousTile) {
-        this.previousTile = previousTile;
-    }
-
     public void setCostOfTile(double newCost) {
         costOfTile = newCost;
     }
-
-    public void setDestination() {
-        isDestination = true;
+    public void setSource(boolean isSource) {
+        this.isSource = isSource;
+    }
+    public void setDestination(boolean isDestination) {
+        this.isDestination = isDestination;
     }
 
-    public void resetPreviousTile() {
-        this.previousTile = null;
-        this.costSoFar = Double.MAX_VALUE;
+    public static void setDefault(Tile[][] grid) {
+        for (Tile[] tiles : grid) {
+            for (Tile tile : tiles) {
+                tile.previousTile = null;
+                tile.costSoFar = 0.0;
+                tile.isVisited = false;
+                tile.isDestination = false;
+            }
+        }
     }
 
     @Override
     public String toString() {
         return String.format("row: %d, col: %d", row, col);
     }
+
 
     @Override
     public int compareTo(Tile o2) {

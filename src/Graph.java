@@ -36,7 +36,6 @@ public class Graph {
         }
     }
 
-    // returns path destination point inclusive but not starting point
     public static void setPathAfterAStar() {
         Tile lastTile = destinationTile;
 

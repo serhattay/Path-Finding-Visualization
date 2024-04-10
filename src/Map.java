@@ -25,26 +25,23 @@ public abstract class Map {
         String treeGround = "assets/tree_ground.jpeg";
         String[] treeList = new String[]{"assets/green_tree.png", "assets/pink_tree.png"};
         String sand = "assets/sand.png";
+        String berkGokberk = "assets/berkgokberk.png";
+        String computer = "assets/computer.png";
 
         for (Tile[] tiles : grid) {
             for (Tile tile : tiles) {
                 if (tile.isSource) {
-                    StdDraw.setPenColor(StdDraw.RED);
-                    StdDraw.filledSquare((tile.col + 0.5) * Map.CELL_SIZE,
-                            (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE, Map.CELL_SIZE / 2.0);
+                    drawTile(tile, grassList);
+                    drawTile(tile, berkGokberk);
                 } else if (tile.isObstacle) {
-                    StdDraw.picture((tile.col + 0.5) * Map.CELL_SIZE, (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE,
-                            treeGround, Map.CELL_SIZE, Map.CELL_SIZE);
+                    drawTile(tile, treeGround);
                 } else if (tile.costOfTile > 1) {
-                    StdDraw.picture((tile.col + 0.5) * Map.CELL_SIZE, (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE,
-                            sand, Map.CELL_SIZE, Map.CELL_SIZE);
+                    drawTile(tile, sand);
                 } else if (tile.isDestination) {
-                    StdDraw.setPenColor(StdDraw.GREEN);
-                    StdDraw.filledSquare((tile.col + 0.5) * Map.CELL_SIZE,
-                            (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE, Map.CELL_SIZE / 2.0);
+                    drawTile(tile, grassList);
+                    drawTile(tile, computer);
                 } else {
-                    StdDraw.picture((tile.col + 0.5) * Map.CELL_SIZE, (Map.ROW - tile.row - 0.5) * Map.CELL_SIZE,
-                            grassList[random.nextInt(grassList.length)], Map.CELL_SIZE, Map.CELL_SIZE);
+                    drawTile(tile, grassList);
                 }
             }
         }
@@ -66,5 +63,16 @@ public abstract class Map {
         Map.drawGrid(grid);
         StdDraw.show();
         Tile.setDefault(grid);
+    }
+
+    public static void drawTile(Tile characterTile, String picture) {
+        StdDraw.picture((characterTile.col + 0.5) * Map.CELL_SIZE, (Map.ROW - characterTile.row - 0.5) * Map.CELL_SIZE,
+                picture, Map.CELL_SIZE, Map.CELL_SIZE);
+    }
+
+    public static void drawTile(Tile characterTile, String[] pictureList) {
+        Random random = new Random();
+        StdDraw.picture((characterTile.col + 0.5) * Map.CELL_SIZE, (Map.ROW - characterTile.row - 0.5) * Map.CELL_SIZE,
+                pictureList[random.nextInt(pictureList.length)], Map.CELL_SIZE, Map.CELL_SIZE);
     }
 }

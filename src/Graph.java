@@ -47,7 +47,8 @@ public class Graph {
             nextTile.drawLine();
         }
 
-        characterLocation.drawCircle(animation);
+        String characterPicture = "assets/berkgokberk.png";
+        Map.drawTile(characterLocation, characterPicture);
 
         for (Tile nextTile: path) {
             nextTile.drawCircle(animation);

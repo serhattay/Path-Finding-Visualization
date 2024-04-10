@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 
-public class Tile {
+public class Tile implements Comparable<Tile> {
     protected int row;
     protected int col;
     protected boolean isObstacle;
     protected boolean isSource;
     protected boolean isDestination = false;
     protected Tile previousTile = null;
-    protected double costSoFar;
+    protected double costSoFar = 0.0;
     protected double costOfTile;
     protected boolean isVisited = false;
 
@@ -101,4 +101,16 @@ public class Tile {
         return String.format("row: %d, col: %d", row, col);
     }
 
+    @Override
+    public int compareTo(Tile o2) {
+        double totalCostOfO1 = costSoFar + costOfTile + Graph.heuristic(this, Graph.destinationTile);
+        double totalCostOfO2 = o2.costSoFar + o2.costOfTile + Graph.heuristic(o2, Graph.destinationTile);
+        if (totalCostOfO1 < totalCostOfO2) {
+            return -1;
+        } else if (totalCostOfO1 == totalCostOfO2) {
+            return 0;
+        } else {
+            return 11;
+        }
+    }
 }

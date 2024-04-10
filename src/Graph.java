@@ -1,24 +1,50 @@
 import java.awt.*;
-import java.util.Comparator;
-import java.util.PriorityQueue;
-import java.util.Random;
+import java.util.*;
 
 public class Graph {
     protected static Tile[][] grid = new Tile[Map.ROW][Map.COL];
     protected static Tile characterLocation;
     protected static Tile destinationTile;
+    protected static LinkedList<Tile> path;
     protected static Random random = new Random();
 
-    /*
+
     public static void aStarAlgorithm() {
+        PriorityQueue<Tile> frontier = new PriorityQueue<>();
+        frontier.add(characterLocation);
+        Tile current;
+        double newCost;
+
+        while (!frontier.isEmpty()) {
+            current = frontier.poll();
+            if (current == destinationTile) {
+                break;
+            }
+            for (Tile next: current.adjacencies) {
+                newCost = current.costSoFar + current.costOfTile;
+                if (!next.isVisited || newCost < next.costSoFar) {
+                    next.costSoFar = newCost;
+                    frontier.add(next);
+                    next.isVisited = true;
+                    next.previousTile = current;
+                }
+            }
+        }
     }
 
-    public static void drawAStar() {
+    // returns path destination point inclusive but not starting point
+    public static void setPathAfterAStar() {
+        Tile lastTile = destinationTile;
+
+        while (lastTile.previousTile != null) {
+            path.addFirst(lastTile);
+            lastTile = lastTile.previousTile;
+        }
     }
-    */
+
     public static double heuristic(Tile currentTile, Tile destinationTile) {
-        return Math.sqrt(Math.pow(currentTile.getCol() - destinationTile.getCol(), 2) +
-                Math.pow(currentTile.getRow() - destinationTile.getRow(), 2));
+        return Math.abs(destinationTile.getCol() - currentTile.getCol()) +
+                Math.abs(destinationTile.getRow() - currentTile.getRow());
     }
     public static void setAdjacentTiles() {
         for (int i = 0; i < grid.length; i++) {
@@ -122,20 +148,5 @@ public class Graph {
     }
 }
 
-class TileComparator implements Comparator<Tile> {
-
-    @Override
-    public int compare(Tile o1, Tile o2) {
-        double totalCostOfO1 = o1.costSoFar + o1.costOfTile + Graph.heuristic(o1, Graph.destinationTile);
-        double totalCostOfO2 = o2.costSoFar + o2.costOfTile + Graph.heuristic(o2, Graph.destinationTile);
-        if (totalCostOfO1 < totalCostOfO2) {
-            return 1;
-        } else if (totalCostOfO1 == totalCostOfO2) {
-            return 0;
-        } else {
-            return -1;
-        }
-    }
-}
 
 

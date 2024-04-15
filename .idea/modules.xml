@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CampusShortestPathFinder.iml" filepath="$PROJECT_DIR$/CampusShortestPathFinder.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Path-Finding-Visualization.iml" filepath="$PROJECT_DIR$/Path-Finding-Visualization.iml" />
     </modules>
   </component>
 </project>
